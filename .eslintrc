@@ -1,12 +1,11 @@
 {
   "extends": "eslint-config-airbnb",
   "env": {
-    "browser": true,
+    "browser": false,
     "node": true,
     "mocha": true
   },
   "rules": {
-    "react/no-multi-comp": 0,
     "import/default": 0,
     "import/no-duplicates": 0,
     "import/named": 0,
@@ -25,7 +24,7 @@
   "settings": {
     "import/parser": "babel-eslint",
     "import/resolve": {
-      moduleDirectory: ["node_modules", "lib"]
+      moduleDirectory: ["node_modules", "src"]
     }
   },
   "globals": {

@@ -333,7 +333,7 @@ export function createRoutes(options) {
         params.getById, params.modelKeyGetter, params.modelIdKey),
       createSetByIdRoute(params.routeBasename, params.acceptedKeys,
         params.getById, params.update,
-        params.modelKeyGetter, params.modelIdKey),
+        params.modelKeyGetter, params.modelIdKey)
     ),
     createCallCreateRoute(params.routeBasename, params.acceptedKeys,
       params.create, params.getLength, params.modelIdGetter),

@@ -1,8 +1,12 @@
 {
-  "stage": 0,
-  "optional": "runtime",
-  "loose": "all",
-  "plugins": [
-    "typecheck"
+  "presets": [
+    "es2015",
+    "stage-0"
   ],
+  "plugins": [
+    "syntax-async-functions",
+    "transform-async-to-generator",
+    "transform-regenerator",
+    "transform-runtime",
+  ]
 }
