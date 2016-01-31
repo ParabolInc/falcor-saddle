@@ -95,7 +95,7 @@ const app = express();
 
 app.use('/model.json', bodyParser.urlencoded({extended: false}),
   falcorExpress.dataSourceRoute( (req, res, next) =>
-    new FalcorRouter(req, res, next)
+    new MyRouter(req, res, next)
 ));
 
 /* ... additional app configuration, call to app.listen() ... */
