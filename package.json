@@ -1,7 +1,7 @@
 {
   "name": "falcor-saddle",
   "version": "0.0.1",
-  "description": "Extensible route generator for falcor-router – giddyup!",
+  "description": "Experimental model route scaffolding for Netflix Falcor – giddyup!",
   "main": "lib/index.js",
   "files": [
     "lib/",

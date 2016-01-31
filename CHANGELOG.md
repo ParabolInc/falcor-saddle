@@ -7,4 +7,5 @@ This CHANGELOG follows conventions [outlined here](http://keepachangelog.com/).
 ## [Unreleased]
 ### Added
 - Initial code import by @jrwells
+- Babel build configuration and package setup by @jrhusney
 - Initial documentation by @jrhusney
