@@ -136,7 +136,7 @@ export function createGetByIdRoute(routeBasename, acceptedKeys, getByIdPromise,
 
 /*
  * getByIdPromise = async (id) => modelObject
- * updatePromise = async (oldObj, newObj) => newObj
+ * updatePromise = async (oldObj, newParams) => newObj
  * modelKeyGetter = (modelObject, key) => modelObject[key]
  */
 
@@ -190,7 +190,7 @@ export function createSetByIdRoute(routeBasename, acceptedKeys, getByIdPromise, 
 }
 
 /*
- * createPromise = async (modelParams) => [newModelObj, newCollectionLength]
+ * createPromise = async (modelParams) => newModelObj
  * getLengthPromise = async () => count
  * modelIdGetter = (modelObject) => modelObject.id
  */
@@ -221,7 +221,7 @@ export function createCallCreateRoute(routeBasename, acceptedKeys,
 }
 
 /*
- * deleteByIdPromise = async (obj) => null;
+ * deleteByIdPromise = async (id) => null;
  * getLengthPromise = async () => count
  */
 
@@ -294,18 +294,21 @@ export function createRoutes(options) {
       presence: true,
       type: 'Function'
     },
+    modelIdKey: {
+      type: 'String'
+    },
     modelKeyGetter: {
       type: 'Function'
     },
-    modelIdKey: {
-      type: 'String'
+    modelIdGetter: {
+      type: 'Function'
     }
   };
   // Optional parameters:
   const optionalParams = {
-    modelKeyGetter: defModelKeyGetter,
     modelIdKey: defModelIdKey,
-    modelIdGetter: defModelIdGetter,
+    modelKeyGetter: defModelKeyGetter
+    /* modelIdGetter: special-cased below */
   };
 
   // Check for unknown params:
@@ -317,6 +320,11 @@ export function createRoutes(options) {
 
   // Merge default parameters into params:
   const params = _.defaults(options, optionalParams);
+
+  // Special-case local default of modelIdGetter using provided parameters:
+  params.modelIdGetter = (typeof params.modelIdGetter !== 'undefined') ?
+    params.modelIdGetter :
+    (model) => params.modelKeyGetter(model, params.modelIdKey);
 
   // Perform final parameter validation:
   const errors = validate(params, constraints);
