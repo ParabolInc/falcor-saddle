@@ -11,7 +11,8 @@
     "build": "babel src -d lib",
     "lint": "eslint -c .eslintrc src",
     "test-spec": "mocha src/**/*.spec.js --compilers js:babel-core/register -R spec --bail",
-    "test": "npm run lint && npm run test-spec && mocha test/**/*.js --compilers js:babel-core/register"
+    "test": "npm run lint && npm run test-spec && mocha test/**/*.js --compilers js:babel-core/register",
+    "prepublish": "npm run build"
   },
   "repository": {
     "type": "git",
