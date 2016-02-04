@@ -25,19 +25,19 @@ import Todo from 'model-todo';
 
 const routes = {
   {
-    route: "todo.length",
+    route: "todos.length",
     get: (pathSet) => {
       /* implementation */
     }
   },
   {
-    route: "todo[ranges]",
+    route: "todos[ranges]",
     get: (pathSet) => {
       /* more implementation */
     }
   },
   {
-    route: "todoById[keys]",
+    route: "todosById[keys]",
     get: (pathSet) => {
       /* yet more implementation */
     }
