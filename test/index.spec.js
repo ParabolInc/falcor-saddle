@@ -9,6 +9,8 @@ import HttpDataSource from 'falcor-http-datasource';
 
 import { createGetLengthRoute } from '../src/index';
 
+import { cache } from './data/cache.js';
+
 const SERVER_PORT = 15649;
 const FALCOR_MODEL = '/model.json';
 const FALCOR_MODEL_URL = `http://localhost:${SERVER_PORT}${FALCOR_MODEL}`;
