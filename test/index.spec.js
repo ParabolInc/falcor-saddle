@@ -11,6 +11,10 @@ import { createGetLengthRoute } from '../src/index';
 
 import { cache } from './data/cache.js';
 
+import { get } from './get.spec.js';
+import { set } from './set.spec.js';
+import { call } from './call.spec.js';
+
 const SERVER_PORT = 15649;
 const FALCOR_MODEL = '/model.json';
 const FALCOR_MODEL_URL = `http://localhost:${SERVER_PORT}${FALCOR_MODEL}`;
