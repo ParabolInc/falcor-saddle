@@ -4,12 +4,12 @@ import validate from 'validate.js';
 
 import serialize from './serialization';
 
-const routeSuffixLength = '.length';
+const routeSuffixLength = 'length';
 const routeSuffixRanges = '[{ranges:indexRanges}]';
 const routeSuffixById = 'ById';
 const routeSuffixByIdKeys = routeSuffixById + '[{keys:ids}]';
-const routeSuffixCreate = '.create';
-const routeSuffixDelete = '.delete';
+const routeSuffixCreate = 'create';
+const routeSuffixDelete = 'delete';
 
 const defModelIdKey = 'id';
 const defModelKeyGetter = (model, key) => model[key];
@@ -52,7 +52,7 @@ validate.validators.type.checks = {
 
 export function createGetLengthRoute(routeBasename, getLengthPromise) {
   return {
-    route: routeBasename + routeSuffixLength,
+    route: routeBasename + '.' + routeSuffixLength,
     async get(pathSet) {
       const length = await getLengthPromise();
       return jsonGraph.pathValue(pathSet, length);
@@ -198,8 +198,9 @@ export function createSetByIdRoute(routeBasename, acceptedKeys, getByIdPromise, 
 export function createCallCreateRoute(routeBasename, acceptedKeys,
   createPromise, getLengthPromise,
   modelIdGetter = defModelIdGetter) {
+  const routeByIdBasename = routeBasename + routeSuffixById;
   return {
-    route: routeBasename + routeSuffixCreate,
+    route: routeBasename + '.' + routeSuffixCreate,
     async call(callPath, args) { // eslint-disable-line no-unused-vars
       const objParams = _.pick(args[0], acceptedKeys);
       try {
@@ -209,9 +210,9 @@ export function createCallCreateRoute(routeBasename, acceptedKeys,
         return [
           jsonGraph.pathValue(
             [routeBasename, newLength - 1],
-            jsonGraph.ref([ 'meetingsById', modelIdGetter(newObj) ])
+            jsonGraph.ref([ routeByIdBasename, modelIdGetter(newObj) ])
           ),
-          jsonGraph.pathValue(['meetings', 'length' ], newLength)
+          jsonGraph.pathValue([ routeBasename, routeSuffixLength ], newLength)
         ];
       } catch (err) {
         return jsonGraph.error(err);
@@ -229,7 +230,7 @@ export function createCallDeleteRoute(routeBasename,
   deleteByIdPromise, getLengthPromise) {
   const routeByIdBasename = routeBasename + routeSuffixById;
   return {
-    route: routeByIdBasename + routeSuffixDelete,
+    route: routeByIdBasename + '.' + routeSuffixDelete,
     async call(callPath, args) { // eslint-disable-line no-unused-vars
       const responses = [];
 
