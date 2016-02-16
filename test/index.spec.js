@@ -17,14 +17,11 @@ const SERVER_PORT = 15649;
 const FALCOR_MODEL = '/model.json';
 const FALCOR_MODEL_URL = `http://localhost:${SERVER_PORT}${FALCOR_MODEL}`;
 
-chai.use(chaiAsPromised);
-const should = chai.should();
-
 const cacheModel = Falcor.model({
   'cache': cache
 });
 
-describe('Starting Server', function() {
+describe('starting server', function() {
   getCore(cacheModel);
   setCore(cacheModel);
   callCore(cacheModel);

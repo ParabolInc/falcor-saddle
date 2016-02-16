@@ -208,7 +208,7 @@ export function createCallCreateRoute(routeBasename, acceptedKeys,
 
         return [
           jsonGraph.pathValue(
-            ['meetings', newLength - 1],
+            [routeBasename, newLength - 1],
             jsonGraph.ref([ 'meetingsById', modelIdGetter(newObj) ])
           ),
           jsonGraph.pathValue(['meetings', 'length' ], newLength)

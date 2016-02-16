@@ -2,8 +2,11 @@ import chai from 'chai';
 
 import { createSetByIdRoute } from '../src/index';
 
+chai.use(chaiAsPromised);
+const should = chai.should();
+
 export function setCore(model) {
-	describe("Set Core", function() {
+	describe("set core", function() {
 		describe('createSetByIdRoute', function() {
 	    it('exists', function () {
 	      should.exist(createGetLengthRoute);
