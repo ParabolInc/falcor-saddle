@@ -2,7 +2,7 @@ import chai from 'chai';
 const should = chai.should();
 
 // Module
-import serializer from './serialization';
+import serializer from '../src/serialization.js';
 
 // Suite
 describe('serializer', function () {

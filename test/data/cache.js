@@ -1,5 +1,5 @@
 const cache = {
-	"title": "Population by Neighborhood",
+	"title": "Neighborhoods By Population",
 	"neighborhoodsById": {
 		"0": {
 			"name": "Claremont-Bathgate",
