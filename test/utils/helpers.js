@@ -20,7 +20,7 @@ export function generateRangeErrors(min, max, path, error) {
 			}
 		});
 	});
-	return new Error(response);
+	return response;
 }
 
 export function arrayToRangeOutput(path, modelPath, array, min) {

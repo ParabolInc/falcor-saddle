@@ -47,6 +47,8 @@ const RANGE_MIN = 0;
 const RANGE_MAX = _.keys(cache.neighborhoodsById).length - 1;
 const RANGE_OVERFLOW = 10;
 
+const TYPE_ERROR_ID_UNDEFINED = 'TypeError: Cannot set property \'id\' of undefined'
+
 const ACCEPTED_KEYS = ['name', 'population', 'borough'];
 const ID_PATH = `${BASE_PATH}ById[{keys:ids}]${JSON.stringify(ACCEPTED_KEYS)}`;
 const idPromise = async (id) => cache.neighborhoodsById[id];
@@ -139,12 +141,11 @@ describe("get core", function() {
 			testServer.restart(routes);
 
 			let expectedOutput = generateRangeErrors(range.min, range.max, BASE_PATH,
-				'TypeError: Cannot set property \'id\' of undefined');
+				TYPE_ERROR_ID_UNDEFINED);
 
 			// Test!!
-			return true;
-			// return model.get(`${BASE_PATH}[${range.min}..${range.max}]`)
-			// 	.should.eventually.throw(expectedOutput);
+			return model.get(`${BASE_PATH}[${range.min}..${range.max}]`)
+				.should.eventually.be.rejectedWith(expectedOutput);
 		});
 
 		it('returns a formatted error and data when multiple ranges are batched', async function () {
@@ -157,13 +158,14 @@ describe("get core", function() {
 
 			let expectedOutputOne = arrayToRangeOutput(BASE_PATH, `${BASE_PATH}ById`,
 				await rangePromise(rangeOne.min, rangeOne.max), rangeOne.min);
+			let expectedOutputTwo = generateRangeErrors(rangeTwo.min, rangeTwo.max, BASE_PATH,
+				TYPE_ERROR_ID_UNDEFINED);
 
 			// Test!!
-			return true;
-			// return batchModel.get(`${BASE_PATH}[${rangeOne.min}..${rangeOne.max}]`)
-			// 		.should.eventually.deep.equal(expectedOutputOne) &&
-			// 	batchModel.get(`${BASE_PATH}[${rangeTwo.min}..${rangeTwo.max}]`)
-			// 		.should.eventually.deep.equal(TYPE_ERROR);
+			return batchModel.get(`${BASE_PATH}[${rangeOne.min}..${rangeOne.max}]`)
+					.should.eventually.deep.equal(expectedOutputOne) &&
+				batchModel.get(`${BASE_PATH}[${rangeTwo.min}..${rangeTwo.max}]`)
+					.should.eventually.be.rejectedWith(expectedOutputTwo);
 		});
   });
 
