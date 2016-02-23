@@ -116,7 +116,7 @@ export function createGetByIdRoute(routeBasename, acceptedKeys, getByIdPromise,
         try {
           modelObjs.push(await getByIdPromise(id));
         } catch (err) {
-          responses.push(jsonGraph.error(err));
+          throw new Error(err);
         }
       }
       for (const modelObj of modelObjs) {

@@ -47,8 +47,9 @@ const RANGE_MIN = 0;
 const RANGE_MAX = _.keys(cache.neighborhoodsById).length - 1;
 const RANGE_OVERFLOW = 10;
 
-const TYPE_ERROR_ID_UNDEFINED = 'TypeError: Cannot set property \'id\' of undefined'
+const TYPE_ERROR_ID_UNDEFINED = 'TypeError: Cannot set property \'id\' of undefined';
 
+const ID_REPEAT = 10;
 const ACCEPTED_KEYS = ['name', 'population', 'borough'];
 const ID_PATH = `${BASE_PATH}ById[{keys:ids}]${JSON.stringify(ACCEPTED_KEYS)}`;
 const idPromise = async (id) => cache.neighborhoodsById[id];
