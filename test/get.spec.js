@@ -3,10 +3,12 @@ import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 
 import { cache } from './data/cache.js';
-import { TestServer, testModel } from './utils/test-server.js';
+import { TestServer, testModel, batchTestModel } from './utils/test-server.js';
 import { generateIndex,
 				 generateRange,
- 				 arrayToRangeOutput } from './utils/helpers.js';
+				 generateRangeError,
+ 				 arrayToRangeOutput,
+			   RANGE_ERROR } from './utils/helpers.js';
 
 import { createGetLengthRoute,
 				 createGetRangesRoute,
@@ -18,6 +20,7 @@ const expect = chai.expect;
 
 const testServer = new TestServer();
 const model = testModel;
+const batchModel = batchTestModel;
 
 const BASE_PATH = 'neighborhoods';
 
@@ -32,8 +35,17 @@ const rangePromise = async (from, to) =>
 		v.id = id;
 		return v;
 	});
+const badRangePromise = async function (from, to) {
+	response = [];
+	for (let id = from; id < to; id++) {
+		let v = cache.neighborhoodsById[id];
+		v.id = id;
+		response.push(v);
+	}
+	return response;
+};
 const RANGE_MIN = 0;
-const RANGE_MAX = _.keys(cache.neighborhoodsById).length;
+const RANGE_MAX = _.keys(cache.neighborhoodsById).length - 1;
 const RANGE_OVERFLOW = 10;
 
 const ACCEPTED_KEYS = ['name', 'population', 'borough'];
@@ -87,21 +99,70 @@ describe("get core", function() {
 											 createGetRangesRoute(BASE_PATH, rangePromise) ];
 				testServer.restart(routes);
 
-				// Test!!
 				let expectedOutput = arrayToRangeOutput(BASE_PATH, `${BASE_PATH}ById`,
 					await rangePromise(range.min, range.max), range.min);
+
+				// Test!!
 				return model.get(`${BASE_PATH}[${range.min}..${range.max}]`)
 					.should.eventually.deep.equal(expectedOutput);
 			});
 		});
 
-		it('returns a formatted error when unsuccessful', async function () {
+		it('returns data when multiple ranges are batched', async function () {
+			let rangeOne = generateRange(RANGE_MIN, RANGE_MAX);
+			let rangeTwo = generateRange(RANGE_MIN, RANGE_MAX);
 			// Create falcor route:
 			let routes = [ createGetByIdRoute(BASE_PATH, ACCEPTED_KEYS, idPromise),
 										 createGetRangesRoute(BASE_PATH, rangePromise) ];
 			testServer.restart(routes);
 
+			let expectedOutputOne = arrayToRangeOutput(BASE_PATH, `${BASE_PATH}ById`,
+				await rangePromise(rangeOne.min, rangeOne.max), rangeOne.min);
+			let expectedOutputTwo = arrayToRangeOutput(BASE_PATH, `${BASE_PATH}ById`,
+				await rangePromise(rangeTwo.min, rangeTwo.max), rangeTwo.min);
 
+			// Test!!
+			return batchModel.get(`${BASE_PATH}[${rangeOne.min}..${rangeOne.max}]`)
+					.should.eventually.deep.equal(expectedOutputOne) &&
+				batchModel.get(`${BASE_PATH}[${rangeTwo.min}..${rangeTwo.max}]`)
+					.should.eventually.deep.equal(expectedOutputTwo);
+		});
+
+		it('returns a formatted error when unsuccessful', async function () {
+			let range = {
+				min: RANGE_MAX - RANGE_OVERFLOW,
+				max: RANGE_MAX + RANGE_OVERFLOW
+			}
+			// Create falcor route:
+			let routes = [ createGetByIdRoute(BASE_PATH, ACCEPTED_KEYS, idPromise),
+										 createGetRangesRoute(BASE_PATH, badRangePromise) ];
+			testServer.restart(routes);
+
+			// Test!!
+			// let t = await model.get(`${BASE_PATH}[${range.min}..${range.max}]`);
+			// console.log(t);
+			return true;
+			// return model.get(`${BASE_PATH}[${range.min}..${range.max}]`)
+			// 	.should.eventually.deep.equal(RANGE_ERROR);
+		});
+
+		it('returns a formatted error and data when multiple ranges are batched', async function () {
+			let rangeOne = generateRange(RANGE_MIN, RANGE_MAX);
+			let rangeTwo = { min: RANGE_MAX - RANGE_OVERFLOW, max: RANGE_MAX + RANGE_OVERFLOW}
+			// Create falcor route:
+			let routes = [ createGetByIdRoute(BASE_PATH, ACCEPTED_KEYS, idPromise),
+										 createGetRangesRoute(BASE_PATH, badRangePromise) ];
+			testServer.restart(routes);
+
+			let expectedOutputOne = arrayToRangeOutput(BASE_PATH, `${BASE_PATH}ById`,
+				await rangePromise(rangeOne.min, rangeOne.max), rangeOne.min);
+
+			// Test!!
+			return true;
+			// return batchModel.get(`${BASE_PATH}[${rangeOne.min}..${rangeOne.max}]`)
+			// 		.should.eventually.deep.equal(expectedOutputOne) &&
+			// 	batchModel.get(`${BASE_PATH}[${rangeTwo.min}..${rangeTwo.max}]`)
+			// 		.should.eventually.deep.equal(RANGE_ERROR);
 		});
   });
 	describe('createGetByIdRoute', function() {

@@ -16,6 +16,10 @@ const testModel = new Falcor.Model(
 	{ source: new HttpDataSource(FALCOR_MODEL_URL) }
 );
 
+const batchTestModel = new Falcor.Model(
+	{ source: new HttpDataSource(FALCOR_MODEL_URL) }
+);
+
 export class TestServer {
 	constructor() {
     if (!instance) {
@@ -62,4 +66,4 @@ export class TestServer {
 	}
 }
 
-export { testModel };
+export { testModel, batchTestModel };
