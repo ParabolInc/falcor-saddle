@@ -6,9 +6,8 @@ import { cache } from './data/cache.js';
 import { TestServer, testModel, batchTestModel } from './utils/test-server.js';
 import { generateIndex,
 				 generateRange,
-				 generateRangeError,
- 				 arrayToRangeOutput,
-			   RANGE_ERROR } from './utils/helpers.js';
+				 generateRangeErrors,
+ 				 arrayToRangeOutput } from './utils/helpers.js';
 
 import { createGetLengthRoute,
 				 createGetRangesRoute,
@@ -36,7 +35,7 @@ const rangePromise = async (from, to) =>
 		return v;
 	});
 const badRangePromise = async function (from, to) {
-	response = [];
+	let response = [];
 	for (let id = from; id < to; id++) {
 		let v = cache.neighborhoodsById[id];
 		v.id = id;
@@ -77,6 +76,7 @@ describe("get core", function() {
 				.should.eventually.equal(await lengthPromise());
     });
   });
+
 	describe('createGetRangesRoute', function() {
     it('exists', async function () {
       should.exist(createGetRangesRoute);
@@ -138,12 +138,13 @@ describe("get core", function() {
 										 createGetRangesRoute(BASE_PATH, badRangePromise) ];
 			testServer.restart(routes);
 
+			let expectedOutput = generateRangeErrors(range.min, range.max, BASE_PATH,
+				'TypeError: Cannot set property \'id\' of undefined');
+
 			// Test!!
-			// let t = await model.get(`${BASE_PATH}[${range.min}..${range.max}]`);
-			// console.log(t);
 			return true;
 			// return model.get(`${BASE_PATH}[${range.min}..${range.max}]`)
-			// 	.should.eventually.deep.equal(RANGE_ERROR);
+			// 	.should.eventually.throw(expectedOutput);
 		});
 
 		it('returns a formatted error and data when multiple ranges are batched', async function () {
@@ -162,9 +163,10 @@ describe("get core", function() {
 			// return batchModel.get(`${BASE_PATH}[${rangeOne.min}..${rangeOne.max}]`)
 			// 		.should.eventually.deep.equal(expectedOutputOne) &&
 			// 	batchModel.get(`${BASE_PATH}[${rangeTwo.min}..${rangeTwo.max}]`)
-			// 		.should.eventually.deep.equal(RANGE_ERROR);
+			// 		.should.eventually.deep.equal(TYPE_ERROR);
 		});
   });
+
 	describe('createGetByIdRoute', function() {
     it('exists', async function () {
       should.exist(createGetByIdRoute);

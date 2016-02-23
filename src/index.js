@@ -80,7 +80,7 @@ export function createGetRangesRoute(routeBasename, getRangePromise,
         try {
           modelObjs.push(...await getRangePromise(from, to));
         } catch (err) {
-          responses.push(jsonGraph.error(err));
+          throw new Error(err);
         }
         for (let idx = 0; idx < modelObjs.length; idx++) {
           responses.push(

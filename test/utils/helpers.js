@@ -1,10 +1,5 @@
 import * as _ from 'lodash';
 
-const RANGE_ERROR = {
-		'$type': 'error',
-		value: '[ReferenceError: response is not defined]'
-	};
-
 export function generateIndex(min, max) {
 	return _.random(min, max);
 }
@@ -13,6 +8,19 @@ export function generateRange(min, max) {
 	let floor = generateIndex(min, max);
 	let dif = _.random(0, max - floor);
 	return { min: floor, max: floor + dif };
+}
+
+export function generateRangeErrors(min, max, path, error) {
+	let response = []
+	_.times(max - min, function(i) {
+		response.push({
+			path: [ path, min + i ],
+			value: {
+				message: error
+			}
+		});
+	});
+	return new Error(response);
 }
 
 export function arrayToRangeOutput(path, modelPath, array, min) {
@@ -24,5 +32,3 @@ export function arrayToRangeOutput(path, modelPath, array, min) {
 	response.json[path]['$__path'] = [ path ];
 	return response;
 }
-
-export { RANGE_ERROR };
