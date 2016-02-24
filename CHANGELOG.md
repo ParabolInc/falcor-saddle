@@ -15,4 +15,4 @@ This CHANGELOG follows conventions [outlined here](http://keepachangelog.com/).
 - Babel build configuration and package setup by @jrhusney
 - Initial documentation by @jrhusney
 
-[v0.0.3]: https://github.com/jordanh/neurio-python/compare/v0.0.1...v0.0.3
+[v0.0.3]: https://github.com/ParabolInc/falcor-saddle/compare/v0.0.1...v0.0.3
