@@ -7,8 +7,8 @@ import { TestServer, testModel, batchTestModel } from './utils/test-server.js';
 import { generateIndex,
 				 generateKeys,
 				 generateRange,
-				 generateRangeError,
 				 generateIdError,
+				 generateRangeError,
  				 arrayToRangeOutput,
 			   objectToIdOutput			} from './utils/helpers.js';
 
