@@ -19,6 +19,14 @@ export function generateRange(min, max) {
 	return { min: floor, max: floor + dif };
 }
 
+export function generateNewObject(id, keys, value, path) {
+	let response = { json: { [path]: { [id]: { } } } };
+	_.forEach(keys, function (k) {
+		response.json[path][id][k] = value;
+	});
+	return response;
+}
+
 export function generateRangeError(min, max, path, error) {
 	let response = [];
 	_.times(max - min, function(i) {
@@ -39,6 +47,19 @@ export function generateIdError(id, keys, path, error) {
 			path: [ path, id, k ],
 			value: { message: error }
 		});
+	});
+	return response;
+}
+
+export function generateUpdatedObject(obj, path, keys) {
+	let response = { json: { [ path ]: {
+		[ obj.id ]: {
+			"$__path": [ path, `${obj.id}` ]
+		},
+		"$__path": [ path ]
+	} } };
+	_.forEach(keys, function (k) {
+		response.json[path][obj.id][k] = obj[k];
 	});
 	return response;
 }

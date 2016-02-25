@@ -94,11 +94,11 @@ describe("get core", function() {
 
 		it('creates route as a get function', async function () {
       // Create falcor route:
-      let route = createGetRangesRoute(BASE_PATH, rangePromise);
+      let routes = createGetRangesRoute(BASE_PATH, rangePromise);
 
       // Test!
-			return expect(route['route']).to.equal(RANGE_PATH) &&
-						 expect(route['get']).to.be.a('Function');
+			return expect(routes['route']).to.equal(RANGE_PATH) &&
+						 expect(routes['get']).to.be.a('Function');
     });
 
 		_.times(RANGE_REPEAT, function () {
@@ -188,11 +188,11 @@ describe("get core", function() {
 
 		it('creates route as a get function', async function () {
       // Create falcor route:
-      let route = createGetByIdRoute(BASE_PATH, ACCEPTED_KEYS, idPromise);
+      let routes = createGetByIdRoute(BASE_PATH, ACCEPTED_KEYS, idPromise);
 
       // Test!
-			return expect(route['route']).to.equal(ID_PATH) &&
-						 expect(route['get']).to.be.a('Function');
+			return expect(routes['route']).to.equal(ID_PATH) &&
+						 expect(routes['get']).to.be.a('Function');
     });
 
 		_.times(ID_REPEAT, function () {

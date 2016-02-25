@@ -161,14 +161,12 @@ export function createSetByIdRoute(routeBasename, acceptedKeys, getByIdPromise, 
         try {
           oldObj = await getByIdPromise(id);
         } catch (err) {
-          responses.push(jsonGraph.error(err));
-          continue;
+          throw new Error(err);
         }
         try {
           newObj = await updatePromise(oldObj, objsById[id]);
         } catch (err) {
-          responses.push(jsonGraph.error(err));
-          continue;
+          throw new Error(err);
         }
         for (const key of acceptedKeys) {
           if (!modelKeyGetter(newObj, key) ||
