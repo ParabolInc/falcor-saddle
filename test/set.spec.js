@@ -124,6 +124,8 @@ describe("set core", function() {
 			let outputOne = generateIdError(idOne, keysOne, `${BASE_PATH}ById`,
 				TYPE_ERROR_ID_UNDEFINED);
 			let outputTwo = await batchModel.set(newObjTwo);
+
+			// Test!!
 			return model.set(newObjOne).should.eventually.be.rejectedWith(outputOne) &&
 				expect(outputTwo).to.deep.equal(
 					generateUpdatedObject(await idPromise(idTwo), `${BASE_PATH}ById`, keysTwo));
