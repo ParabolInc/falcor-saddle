@@ -213,7 +213,7 @@ export function createCallCreateRoute(routeBasename, acceptedKeys,
           jsonGraph.pathValue([ routeBasename, routeSuffixLength ], newLength)
         ];
       } catch (err) {
-        return jsonGraph.error(err);
+        throw new Error(err);
       }
     }
   };
@@ -237,7 +237,7 @@ export function createCallDeleteRoute(routeBasename,
           await deleteByIdPromise(id);
           responses.push(jsonGraph.pathInvalidation([routeByIdBasename, id]));
         } catch (err) {
-          responses.push(jsonGraph.error(err));
+          throw new Error(err);
         }
       }
 
@@ -250,7 +250,7 @@ export function createCallDeleteRoute(routeBasename,
           )
         );
       } catch (err) {
-        responses.push(jsonGraph.error(err));
+        throw new Error(err);
       }
 
       return responses;

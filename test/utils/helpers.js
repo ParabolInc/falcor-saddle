@@ -27,6 +27,26 @@ export function generateNewObject(id, keys, value, path) {
 	return response;
 }
 
+export function generateFields(keys, values) {
+	let response = {};
+	_.zip(keys, values).forEach(function (v) {
+		response[v[0]] = v[1];
+	});
+	return response;
+}
+
+export function generateCreateReturn(obj, length, path) {
+	let response = { json: { [path]: {
+		[`${length - 1}`]: { ['$__path']: [`${path}ById`, length - 1] },
+		'$__path': [ path ],
+		'length': length
+	} } };
+	_.forEach(_.keys(obj), function (k) {
+		response.json[path][`${length - 1}`][k] = obj[k];
+	});
+	return response;
+}
+
 export function generateRangeError(min, max, path, error) {
 	let response = [];
 	_.times(max - min, function(i) {

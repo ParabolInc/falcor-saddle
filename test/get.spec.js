@@ -78,11 +78,13 @@ describe("get core", function() {
 
     it('returns expected formatted data when successful', async function () {
       // Create falcor route:
-      let routes = [ createGetLengthRoute(BASE_PATH, lengthPromise) ];
+      let routes = [ createGetLengthRoute(BASE_PATH, lengthPromise),
+			 							 createGetByIdRoute(BASE_PATH, ACCEPTED_KEYS, idPromise) ];
 			testServer.restart(routes);
 
+			await model.invalidate(LENGTH_PATH);
       // Test!
-      return model.getValue('neighborhoods.length')
+      return model.getValue(LENGTH_PATH)
 				.should.eventually.equal(await lengthPromise());
     });
   });
