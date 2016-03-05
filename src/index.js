@@ -116,7 +116,7 @@ export function createGetByIdRoute(routeBasename, acceptedKeys, getByIdPromise,
         try {
           modelObjs.push(await getByIdPromise(id));
         } catch (err) {
-          responses.push(jsonGraph.error(err));
+          throw new Error(err);
         }
       }
       for (const modelObj of modelObjs) {
@@ -161,14 +161,12 @@ export function createSetByIdRoute(routeBasename, acceptedKeys, getByIdPromise, 
         try {
           oldObj = await getByIdPromise(id);
         } catch (err) {
-          responses.push(jsonGraph.error(err));
-          continue;
+          throw new Error(err);
         }
         try {
           newObj = await updatePromise(oldObj, objsById[id]);
         } catch (err) {
-          responses.push(jsonGraph.error(err));
-          continue;
+          throw new Error(err);
         }
         for (const key of acceptedKeys) {
           if (!modelKeyGetter(newObj, key) ||
@@ -215,7 +213,7 @@ export function createCallCreateRoute(routeBasename, acceptedKeys,
           jsonGraph.pathValue([ routeBasename, routeSuffixLength ], newLength)
         ];
       } catch (err) {
-        return jsonGraph.error(err);
+        throw new Error(err);
       }
     }
   };
@@ -239,7 +237,7 @@ export function createCallDeleteRoute(routeBasename,
           await deleteByIdPromise(id);
           responses.push(jsonGraph.pathInvalidation([routeByIdBasename, id]));
         } catch (err) {
-          responses.push(jsonGraph.error(err));
+          throw new Error(err);
         }
       }
 
@@ -252,7 +250,7 @@ export function createCallDeleteRoute(routeBasename,
           )
         );
       } catch (err) {
-        responses.push(jsonGraph.error(err));
+        throw new Error(err);
       }
 
       return responses;
@@ -316,7 +314,7 @@ export function createRoutes(options) {
   const unknownParams = _.difference(Object.keys(options),
                           Object.keys(constraints));
   if (unknownParams.length > 0) {
-    throw new Error('unknown paramters: ' + JSON.stringify(unknownParams));
+    throw new Error('unknown parameters: ' + JSON.stringify(unknownParams));
   }
 
   // Merge default parameters into params:

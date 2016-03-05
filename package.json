@@ -1,6 +1,6 @@
 {
   "name": "falcor-saddle",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Experimental model route scaffolding for Netflix Falcor – giddyup!",
   "main": "lib/index.js",
   "files": [

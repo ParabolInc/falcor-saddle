@@ -4,10 +4,16 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 This CHANGELOG follows conventions [outlined here](http://keepachangelog.com/).
 
+## [v0.0.4]
+### Added
+- Changed existing unit tests to static tests by @jrwells
+- Completed the full unit test suite by @jrwells
+- Fixed route error handling by @jrwells
+
 ## [v0.0.3]
 ### Added
 - Added first suite of unit tests by @jrwells
-- Fixes `.create` route, no longer hardcoded to `meetings.create`
+- Fixed `.create` route, no longer hardcoded to `meetings.create`
 
 ## v0.0.1
 ### Added
@@ -15,4 +21,5 @@ This CHANGELOG follows conventions [outlined here](http://keepachangelog.com/).
 - Babel build configuration and package setup by @jrhusney
 - Initial documentation by @jrhusney
 
+[v0.0.4]: https://github.com/ParabolInc/falcor-saddle/compare/v0.0.3...v0.0.4
 [v0.0.3]: https://github.com/ParabolInc/falcor-saddle/compare/v0.0.1...v0.0.3
