@@ -314,7 +314,7 @@ export function createRoutes(options) {
   const unknownParams = _.difference(Object.keys(options),
                           Object.keys(constraints));
   if (unknownParams.length > 0) {
-    throw new Error('unknown paramters: ' + JSON.stringify(unknownParams));
+    throw new Error('unknown parameters: ' + JSON.stringify(unknownParams));
   }
 
   // Merge default parameters into params:

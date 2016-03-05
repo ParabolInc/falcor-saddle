@@ -98,9 +98,9 @@ describe("call core", function() {
     });
 		it('creates route as a call function', async function () {
       // Create falcor route:
-      let routes = createCallCreateRoute(BASE_PATH, deletePromise, lengthPromise);
+      let routes = createCallDeleteRoute(BASE_PATH, deletePromise, lengthPromise);
       // Test!!
-			return expect(routes['route']).to.equal(CREATE_PATH) &&
+			return expect(routes['route']).to.equal(DELETE_PATH) &&
 						 expect(routes['call']).to.be.a('Function');
     });
     it('deletes a record', async function () {

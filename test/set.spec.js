@@ -2,7 +2,7 @@ import * as _ from 'lodash';
 import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 
-import { CACHE } from './data/cache.js';
+import { CACHE } from './data/cache.min.js';
 import { TEST_SET } from './data/test-set.min.js';
 import { TestServer, testModel, batchTestModel } from './utils/test-server.js';
 
