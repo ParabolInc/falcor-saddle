@@ -21,5 +21,5 @@ This CHANGELOG follows conventions [outlined here](http://keepachangelog.com/).
 - Babel build configuration and package setup by @jrhusney
 - Initial documentation by @jrhusney
 
-[v0.0.4]: https://github.com/ParabolInc/falcor-saddle/compare/v0.0.3...v0.1.0
+[v0.1.0]: https://github.com/ParabolInc/falcor-saddle/compare/v0.0.3...v0.1.0
 [v0.0.3]: https://github.com/ParabolInc/falcor-saddle/compare/v0.0.1...v0.0.3
