@@ -1,22 +1,17 @@
 # falcor-saddle
 
-Experimental model route scaffold generation for
-[Falcor](https://netflix.github.io/falcor/) – *giddyup!*
+Experimental model route generation for
+[Netflix Falcor](https://netflix.github.io/falcor/) – *giddyup!*
 
 ## Overview
 
 Netflix Falcor is a library for efficiently querying data across a network.
 It presents some useful solutions for querying data from multiple datasources,
-caching, and batching queries for greater performance.
+caching, and batching queries for greater performance. Yet, getting Falcor
+wired up to a back-end model can take _a lot_ of repetitive code.
 
-`falcor-saddle` is an experimental module that will generate CRUD-like
-routes given a set of model methods.
-
-While wiring up
-[Falcor routes](http://netflix.github.io/falcor/documentation/router.html)
-on the server, we found we were writing a lot of similar code. We rolled up
-these patterns into a module I called `falcor-saddle`. The model methods tend
-to be simpler than writing the route implementations by hand.
+`falcor-saddle` is a module that will generate CRUD-like routes for you if
+you give it a set of methods for accessing your model.
 
 Instead of writing this:
 
@@ -27,26 +22,26 @@ const routes = {
   {
     route: "todos.length",
     get: (pathSet) => {
-      /* implementation */
+      /* repetitive implementation */
     }
   },
   {
     route: "todos[ranges]",
     get: (pathSet) => {
-      /* more implementation */
+      /* more repetitive implementation */
     }
   },
   {
     route: "todosById[keys]",
     get: (pathSet) => {
-      /* yet more implementation */
+      /* yet more repetitive implementation */
     }
   },
   /* plus routes to set, create, and delete todos... */
 }
 ```
 
-You can write this:
+You can write this instead:
 
 ```javascript
 import Todo from 'model-todo';
