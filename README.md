@@ -296,14 +296,17 @@ not a:
 
 ## About
 
-### Parabol Core Team
+### Team
 
 `falcor-saddle` is an experiment from [Parabol](http://parabol.co). A
 young company building a human operating-system for teams and organizations.
 
 * [jordanh](https://github.com/jordanh)
-* [jrwells](https://github.com/jrwells)
 * [ackernaut](https://github.com/ackernaut)
+
+With other contributions by:
+
+* [jrwells](https://github.com/jrwells)
 
 ### Contributing
 
