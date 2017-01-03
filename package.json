@@ -1,6 +1,6 @@
 {
   "name": "falcor-saddle",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Experimental model route generation for Netflix Falcor – giddyup!",
   "main": "lib/index.js",
   "files": [
