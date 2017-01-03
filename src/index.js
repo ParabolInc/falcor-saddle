@@ -324,7 +324,7 @@ export function createRoutes(options) {
   }
 
   // Merge default parameters into params:
-  const params = Object.assign({}, options, optionalParams);
+  const params = Object.assign({}, optionalParams, options);
 
   // Special-case local default of modelIdGetter using provided parameters:
   params.modelIdGetter = (typeof params.modelIdGetter !== 'undefined') ?
