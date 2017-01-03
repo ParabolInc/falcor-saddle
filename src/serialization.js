@@ -1,10 +1,9 @@
-import * as _ from 'lodash';
-
 function defSerializer(obj) {
-  if (_.isBoolean(obj) ||
-      _.isNumber(obj) ||
-      _.isString(obj) ||
-      _.isNull(obj) || _.isUndefined(obj)) {
+  if (typeof obj === 'boolean' ||
+      typeof obj === 'number' ||
+      typeof obj === 'string' ||
+      typeof obj === 'undefined' ||
+      (typeof obj === 'object' && obj === null)) {
     return obj;
   }
   // Fallback to JSON serialization:

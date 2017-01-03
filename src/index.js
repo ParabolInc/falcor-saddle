@@ -1,4 +1,3 @@
-import * as _ from 'lodash';
 import * as jsonGraph from 'falcor-json-graph';
 import validate from 'validate.js';
 
@@ -200,7 +199,10 @@ export function createCallCreateRoute(routeBasename, acceptedKeys,
   return {
     route: routeBasename + '.' + routeSuffixCreate,
     async call(callPath, args) { // eslint-disable-line no-unused-vars
-      const objParams = _.pick(args[0], acceptedKeys);
+      // like _.pick(args[0], acceptedKeys)
+      const objParams = Object.assign({}, ...acceptedKeys.map(
+        key =>({[key]: args[0][key]}))
+      );
       try {
         const newObj = await createPromise(objParams);
         const newLength = await getLengthPromise();
@@ -311,14 +313,18 @@ export function createRoutes(options) {
   };
 
   // Check for unknown params:
-  const unknownParams = _.difference(Object.keys(options),
-                          Object.keys(constraints));
-  if (unknownParams.length > 0) {
+  const optionsSet = new Set(Object.keys(options));
+  const constraintsSet = new Set(Object.keys(constraints));
+  const unknownParams = new Set(
+    [...optionsSet].filter(opt => !constraintsSet.has(opt))
+  );
+
+  if (unknownParams.size > 0) {
     throw new Error('unknown parameters: ' + JSON.stringify(unknownParams));
   }
 
   // Merge default parameters into params:
-  const params = _.defaults(options, optionalParams);
+  const params = Object.assign({}, options, optionalParams);
 
   // Special-case local default of modelIdGetter using provided parameters:
   params.modelIdGetter = (typeof params.modelIdGetter !== 'undefined') ?
@@ -335,7 +341,7 @@ export function createRoutes(options) {
     createGetLengthRoute(params.routeBasename, params.getLength),
     createGetRangesRoute(params.routeBasename, params.getRange,
       params.modelIdGetter),
-    _.extend(
+    Object.assign({},
       createGetByIdRoute(params.routeBasename, params.acceptedKeys,
         params.getById, params.modelKeyGetter, params.modelIdKey),
       createSetByIdRoute(params.routeBasename, params.acceptedKeys,
